@@ -1,41 +1,5 @@
 # coding: utf-8
 module Sensable
-
-  def current_situation
-    situation = ""
-    direction = :forward
-    res = look_around
-    enemies = res.select{|r| r.enemy? }
-    # if enemies.length > 1
-    #   situation = "bad"
-    # end
-
-    if enemy_around? && low_health?
-      situation = "bad"
-    end
-
-    return situation,direction unless situation == ""
-
-    if enemy_around? && !low_health?
-      situation = "attack"
-      direction = @warrior.direction_of(enemies.first)
-    end
-
-    if !enemy_around? && need_rest?
-      return "rest"
-    end
-
-    captives = res.select{|r| r.captive?}
-    if captives.length > 0
-      situation = "rescue"
-      direction = @warrior.direction_of(captives.first)
-    end
-
-    return situation,direction unless situation == ""
-
-    return "good"
-  end
-
   def get_next_direction(direction)
     res = look_up(@directions - [direction])
     @warrior.direction_of(res.select{|r| !r.wall?})
@@ -97,7 +61,7 @@ module Sensable
   end
 
   def low_health?
-    @warrior.health < 10
+     (around_enemy_count * 3) >= @warrior.health
   end
 
   def need_rest?
@@ -110,5 +74,10 @@ module Sensable
 
   def face_enemy?
     @warrior.feel.enemy?
+  end
+  
+  #enemy counter
+  def around_enemy_count
+     look_around.select{|s|s.enemy?}.length
   end
 end

@@ -6,15 +6,13 @@ module Actionable
       @warrior.rescue!(direction)
     end
 	end
-
+  
 	def forward!(direction = :forward)
     e,c = listen_all
-    #puts "@@@@@@#{e+c+s}"
-    #puts "@@@@@@#{!((e+c+s).first.stairs?)}"
-    if (@warrior.feel(direction).stairs? && ((e+c).length > 0))
-      #puts "@@@@@@week_direction"
+    if ((@warrior.feel(direction).stairs? && ((e+c).length > 0))) || @warrior.feel(direction).wall?
+      puts "@@@@@@week_direction"
       space = week_direction
-      #puts "#{space},#{@warrior.direction_of space}"
+      puts "#{space},#{@warrior.direction_of space}"
       @warrior.walk!(@warrior.direction_of(space))
     else
       @warrior.walk!(direction)
