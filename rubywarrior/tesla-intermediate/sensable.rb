@@ -65,7 +65,7 @@ module Sensable
   end
 
   def need_rest?
-    @warrior.health < 20
+    @warrior.health < 7
   end
 
   def enemy_around?

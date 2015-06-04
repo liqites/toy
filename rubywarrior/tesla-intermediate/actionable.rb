@@ -49,4 +49,8 @@ module Actionable
     puts "#############{@is_escape}##########"
     @warrior.rest!
   end
+  
+  def bind!(direction = :forward)
+    @warrior.bind!(direction)
+  end
 end

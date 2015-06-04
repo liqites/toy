@@ -18,26 +18,29 @@ class Player
   def play_turn(warrior)
     @warrior = warrior
     space = find_target
-    puts "@@@@@@#{space}"
+    puts "@@@@@@#{space},#{@warrior.direction_of space}" if space
     dir = space.nil? ? @warrior.direction_of_stairs : (@warrior.direction_of space)
-    puts @warrior.direction_of space
     situation,direction = current_situation(space)
+    dir = direction.nil? ? dir : direction
     case situation
     when "bad"
-      puts "@@@@@@bad"
+      puts "bad--->>>escape!"
       escape!
     when "rest"
-      puts "@@@@@@rest"
+      puts "rest--->>>rest!"
       rest!
     when "rescue"
-      puts "@@@@@@rescue,#{direction}"
-      rescue!(direction)
+      puts "rescue--->>>#{dir}"
+      rescue!(dir)
     when "attack"
-      puts "@@@@@@attak,#{direction}"
-      attack!(direction)
+      puts "attak--->>>#{dir}"
+      attack!(dir)
+    when "bing"
+      puts "bing--->>>#{dir}"
+      bind!(dir)
     when "good"
-      puts "@@@@@@good,#{dir}"
-      forward!((direction.nil? ? dir : direction))
+      puts "good--->>>#{dir}"
+      forward!(dir)
     end
   end
 end

@@ -20,25 +20,35 @@ module Determination
     #end
     # 根据target来进行判断
     # 如果是ticking captive
-    target_dir = @warrior.direction_of target
-    facing = @warrior.feel(target_dir)
-   
-    if target.ticking?
-      if facing.enemy? && !low_health?
-        return "attack",target_dir
-      end
+    if target 
+      target_dir = @warrior.direction_of target
+      facing = @warrior.feel(target_dir)
       
-      if facing.captive?
-        return "rescue",target_dir
+      if need_rest?
+        return "rest"
       end
+    
+      if target.ticking?
+        if facing.enemy? && !low_health?
+          return "attack",target_dir
+        end
       
-      if facing.empty?
-        return "good",target_dir
+        if facing.captive?
+          return "rescue",target_dir
+        end
+      
+        if facing.empty?
+          return "good",target_dir
+        end
       end
     end
 
     if !enemy_around? && need_rest?
       return "rest"
+    end
+    
+    if enemy_around?
+      return "attack"
     end
 
     captives = res.select{|r| r.captive?}
