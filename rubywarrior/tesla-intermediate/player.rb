@@ -1,6 +1,3 @@
-require 'actionable'
-require 'sensable'
-require 'determination'
 require 'json'
 
 # coding: utf-8
@@ -17,6 +14,10 @@ class Player
 
   # player turn
   def play_turn(warrior)
+    if @warrior.nil?
+      @warrior = warrior
+    end
+    
     action,direction,spaces = get_action
     case action
       when 'walk'
@@ -27,10 +28,10 @@ class Player
       when 'rescue'
         @warrior.rescue!(direction)  
       when 'bind'
-        bind!(spaces)
+        bind(spaces)
       when 'rest'
         rest!
-      end
+      else
     end
   end
   
@@ -40,7 +41,7 @@ class Player
   #-------------
   def get_action
     target = current_target
-    targer_dir = @warrior.direction_of target
+    target_dir = @warrior.direction_of target
     
     # target id nil
     if target.nil?
@@ -62,7 +63,7 @@ class Player
         enemies_not_facing = threatened_enemies.select{|e|
           @warrior.direction_of(e) != target_dir
         }
-        return 'bind',,enemies_not_facing
+        return 'bind',nil,enemies_not_facing
       end
       
       facing = @warrior.feel(target_dir)
@@ -82,13 +83,12 @@ class Player
     # nothing else
     space = spaces_around.select{|s| !s.empty?}.first
     if space.enemy?
-      return 'attack',@warrior.direction_of space
+      return 'attack',@warrior.direction_of(space)
     end
     
     if space.captive?
-      return 'rescue',@warrior.direction_of space
+      return 'rescue',@warrior.direction_of(space)
     end
-    
     return 'walk',target_dir
   end
   
@@ -111,9 +111,10 @@ class Player
   # bind! Array(Space)
   # bind Spaces
   #-------------
-  def bind!(spaces)
-    @warrior.bind!(spaces.first)
-    @binded_dir << @warrior.direction_of(spaces.first)
+  def bind(spaces)
+    dir = @warrior.direction_of(spaces.first)
+    @binded_dir << dir
+    @warrior.bind!(dir)
   end
   
   #-------------
