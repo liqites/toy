@@ -1,8 +1,7 @@
-require 'json'
-
+require 'colorize'
 # coding: utf-8
 class Player
-  attr_accessor :directions,:warrior,:is_escape,:binded_dir
+  attr_accessor :directions,:warrior,:is_escape,:binded_dir,:detonated
 
   MAX_HEALTH = 20
   ATTACK = 5
@@ -10,52 +9,70 @@ class Player
 
   def initialize(*args)
     @directions = [:forward,:backward,:right,:left]
+    @binded_dir = []
   end
 
   # player turn
   def play_turn(warrior)
-    if @warrior.nil?
-      @warrior = warrior
-    end
-    
-    action,direction,spaces = get_action
-    case action
+    @warrior = warrior
+
+    to_do,direction,spaces = to_do_next
+
+    case to_do
       when 'walk'
+        puts '--------walk--------'.red
         @warrior.walk!(direction)
         @binded_dir = []
+      when 'detonate'
+        @warrior.detonate!(direction)
+        @detonated = true
+      when 'escape'
+        puts '--------escape--------'.red
+        escape!
       when 'attack'
+        puts '--------attack--------'.red
         @warrior.attack!(direction)
       when 'rescue'
-        @warrior.rescue!(direction)  
+        puts '--------rescue--------'.red
+        @warrior.rescue!(direction)
       when 'bind'
-        bind(spaces)
+        puts '--------bind--------'.red
+        bind!(spaces)
       when 'rest'
+        puts '--------rest--------'.red
         rest!
       else
     end
   end
-  
+
   #-------------
-  # get_action
+  # to_do_next
   # return action and direction determined by current situaton
   #-------------
-  def get_action
+  def to_do_next
     target = current_target
-    target_dir = @warrior.direction_of target
-    
+
+    #if @detonated
+    #  @detonated = false
+    #  return 'escape'
+    #end
+
     # target id nil
     if target.nil?
       return "walk",@warrior.direction_of_stairs
     end
-    
+
+    target_dir = @warrior.direction_of target
+    facing = @warrior.feel(target_dir)
+
     if low_health?
       return "rest"
     end
-    
+
     if need_rest? && !target.ticking?
       return "rest"
     end
-    
+
     # if there is something ticking,
     # it's emergency
     if target.ticking?
@@ -63,35 +80,42 @@ class Player
         enemies_not_facing = threatened_enemies.select{|e|
           @warrior.direction_of(e) != target_dir
         }
+        #act_bind(enemies_not_facing)
         return 'bind',nil,enemies_not_facing
       end
-      
-      facing = @warrior.feel(target_dir)
+
       if facing.enemy?
+        if @warrior.look.count > 1
+          return 'detonate',:forward
+        end
         return 'attack',target_dir
       end
-      
+
       if facing.captive?
-        return 'rescue',targer_dir
+        return 'rescue',target_dir
       end
-      
+
       if facing.empty?
         return 'walk',target_dir
       end
     end
-    
+
     # nothing else
     space = spaces_around.select{|s| !s.empty?}.first
+    if space.nil?
+      return 'walk',target_dir
+    end
+
     if space.enemy?
       return 'attack',@warrior.direction_of(space)
     end
-    
+
     if space.captive?
       return 'rescue',@warrior.direction_of(space)
     end
     return 'walk',target_dir
   end
-  
+
   #----------------------------------------------
   #actionable
   #-------------
@@ -106,17 +130,17 @@ class Player
       @warrior.rest!
     end
   end
-  
+
   #-------------
   # bind! Array(Space)
   # bind Spaces
   #-------------
-  def bind(spaces)
+  def bind!(spaces)
     dir = @warrior.direction_of(spaces.first)
     @binded_dir << dir
     @warrior.bind!(dir)
   end
-  
+
   #-------------
   # escape!
   # current situation is bad, need to escape
@@ -126,30 +150,32 @@ class Player
     direction = @warrior.direction_of(space)
     if space.captive?
       @warrior.rescue!(direction)
+      return
     end
 
     if space.empty?
       @warrior.walk!(direction)
+      return
     end
 
     if space.enemy?
       @warrior.attack!(direction)
     end
   end
-  
+
   #----------------------------------------------
   #sensable
-  
+
   #-------------
   # low_health?
   # return true if total damage
   # cased by threatened(unbinded) enemies
-  # is higher than current health 
+  # is higher than current health
   #-------------
   def low_health?
     threatened_enemies.length * DAMAGE >= @warrior.health
   end
-  
+
   #-------------
   # need_rest?
   # true if health < MAX_HEALTH
@@ -157,10 +183,10 @@ class Player
   def need_rest?
     @warrior.health < MAX_HEALTH
   end
-  
+
   #----------------------------------------------
   # helper methods
-  
+
   #-------------
   # week_space
   # current situation is bad
@@ -188,10 +214,10 @@ class Player
 
     return res.first
   end
-  
+
   #-------------
   # threatened_enemies
-  # return enemy space that is 
+  # return enemy space that is
   # unbinded
   #-------------
   def threatened_enemies
@@ -202,7 +228,7 @@ class Player
 
   #-------------
   # spaces_around
-  # return all the spaces 
+  # return all the spaces
   # around player,nil if nothing
   #-------------
   def spaces_around(direction = @directions)
@@ -212,7 +238,7 @@ class Player
     }
     spaces
   end
-  
+
   #-------------
   # current_target
   # return current target space, nil if nothing to be down
@@ -222,7 +248,7 @@ class Player
     cs = captives.select{|c|c.ticking?}
     return (cs+(captives-cs)+enemies).first
   end
-  
+
   #-------------
   # listen_all
   # return all spaces by kind

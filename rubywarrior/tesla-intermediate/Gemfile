@@ -1,0 +1,6 @@
+source 'http://ruby.taobao.org/'
+
+gem 'colorize'
+gem 'pry'
+gem 'pry-nav'
+gem 'pry-debugger'
