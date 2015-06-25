@@ -28,6 +28,7 @@ fi
 
 ahead=$(git status | grep "nothing to commit" )
 if [ -z $ahead ] ; then
+	echo "nothing"
 else
 	git push origin $CURRENT_BRANCH
 	echo $ahead
