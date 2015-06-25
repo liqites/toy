@@ -26,6 +26,14 @@ else
 	echo $nothing_commit
 fi
 
+ahead=$(git status | grep "nothing to commit" )
+if [ -z $ahead ] ; then
+	echo "nothing"
+else
+	git push origin $CURRENT_BRANCH
+	echo $ahead
+fi
+
 git checkout $MASTER_BRANCH
 echo "Merge $CURRENT_BRANCH to $MASTER_BRANCH"
 git merge --no-ff $CURRENT_BRANCH
