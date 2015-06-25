@@ -5,9 +5,9 @@ class Combination
 	# list all possible k-combinations
 	# given numbers from 1..n 
 	def combine(n, k)
-		result = []
-		source = Array.new(n) {|i| i+1}
-		start = source
+		# build tree
 		
+		# search tree
+		# varify result
 	end
 end
