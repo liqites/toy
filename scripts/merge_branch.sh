@@ -26,7 +26,7 @@ else
 	echo $nothing_commit
 fi
 
-ahead =$(git status | grep "nothing to commit" )
+ahead=$(git status | grep "nothing to commit" )
 if [ -z $ahead ] ; then
 else
 	git push origin $CURRENT_BRANCH
