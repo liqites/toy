@@ -15,7 +15,7 @@ if [ $CURRENT_BRANCH != $DEVELOP_BRANCH ] ; then
 fi
 
 nothing_commit=$(git status | grep "nothing to commit" )
-if [ -z $nothing_commit ]
+if [ -z "$nothing_commit" ]
 	then
 	git add .
 	commit_message="auto commit by shell @ $(date)"
@@ -27,7 +27,7 @@ else
 fi
 
 ahead=$(git status | grep "nothing to commit" )
-if [ -z $ahead ] ; then
+if [ -z "$ahead" ] ; then
 	echo "nothing"
 else
 	git push origin $CURRENT_BRANCH
@@ -40,7 +40,7 @@ git merge --no-ff $CURRENT_BRANCH
 
 nothing_commit=$(git status | grep "nothing to commit" )
 echo $nothing_commit
-if [ -z $nothing_commit ]
+if [ -z "$nothing_commit" ]
 	then
 	echo $nothing_commit
 else
