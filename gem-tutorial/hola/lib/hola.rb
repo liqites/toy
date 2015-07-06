@@ -1,16 +1,11 @@
-# The main Hola driver
 class Hola
-  # Say hi to the World!
-  # Example:
-  #   >> Hola.hi!("spanish")
-  #   => hola mundo
-  #
-  # Arguments:
-  #   language: (String)
-  def self.hi(language = "english")
+  def self.hi(language = "en")
     translator = Translator.new(language)
     translator.hi
+    fore = Foreigner.new(language)
+    fore.who?
 	end
 end
 
 require 'hola/translator.rb'
+require 'hola/foreigner.rb'
