@@ -1,11 +1,8 @@
 require 'colorize'
 # coding: utf-8
 class Player
+  include Configuration
   attr_accessor :directions,:warrior,:is_escape,:binded_dir,:detonated
-
-  MAX_HEALTH = 20
-  ATTACK = 5
-  DAMAGE = 3
 
   def initialize(*args)
     @directions = [:forward,:backward,:right,:left]
