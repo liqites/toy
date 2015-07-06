@@ -52,3 +52,7 @@ gem 'ruby-readability', :require => 'readability'
 #cancancan
 gem 'cancancan', '~> 1.10'
 gem 'devise', '~> 3.5.1'
+
+#image generate
+gem 'imgkit'
+gem 'wkhtmltoimage-binary'
