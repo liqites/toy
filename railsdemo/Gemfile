@@ -56,3 +56,7 @@ gem 'devise', '~> 3.5.1'
 #image generate
 gem 'imgkit'
 gem 'wkhtmltoimage-binary'
+gem 'sidekiq'
+gem 'sinatra', :require => nil
+gem 'unicorn'
+gem 'guid'
