@@ -39,11 +39,18 @@ class ImagesController < ApplicationController
   def tohtml
     content= params[:content]
     html = render_to_string("images/index.html.erb")
-    #html = render_to_string("images/templates/a.html.erb")
+    # html = render_to_string("images/templates/a.html.erb")
     f = Image.save_html(html)
-    #Image.save_image_from_string(html)
-
-    Image.save_image(File.new(f.path))
+    puts Image.save_image_from_string(html,0.25)
+    puts Image.save_image(File.new(f.path),0.25)
+    # ImageTestWorker.perform_async(html,1)
+    # kit = IMGKit.new(f)
+    # begin
+    #   kit.to_img(:jpg,"tmp/imgs/111.jpg")
+    # rescue => e
+    #   puts e.backtrace
+    #   puts e.messages
+    # end
 
     # ImageStringWorker.perform_async(html,1)
     # ImageStringWorker.perform_async(html,0.5)
