@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Railsdemo::Application.routes.draw do
   resources :images do
     collection do
@@ -7,6 +9,7 @@ Railsdemo::Application.routes.draw do
 
   root 'images#index'
   resources :users
+  mount Sidekiq::Web => '/sidekiq'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

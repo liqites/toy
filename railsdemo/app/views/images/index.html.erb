@@ -1,16 +1,12 @@
 <style type="text/css">
   .content {
-    background-image: url(<%= asset_path 'a.jpg' %>);
-    height: 100%;
-    width: 100%;
-  }
-
-  body {
-    background-color: grey;
+    height: 1142px;
+    width: 1600px;
+    background-image: url(<%= asset_path("c.jpg")%>)
   }
 </style>
-
 <div class="content">
+  <p style="">asdasdas</p>
 </div>
 
 <a onclick="generate()">Generate</a>
@@ -28,7 +24,5 @@
     })
   }
 
-  window.load = function() {
-    window.status = 'render-image';
-  }
+  window.status = "IMAGE"
 </script>

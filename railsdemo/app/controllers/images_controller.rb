@@ -37,14 +37,23 @@ class ImagesController < ApplicationController
   end
 
   def tohtml
-    size = 500
     content= params[:content]
-    html = html_template
-    jpg = IMGKit.new(html,
-      width: size,
-      height: size
-      )
-    jpg.to_file("tmp/test.jpg")
+    html = render_to_string("images/index.html.erb")
+    f = Image.save_html(html)
+
+    ImageStringWorker.perform_async(html,1)
+    ImageStringWorker.perform_async(html,0.5)
+    ImageStringWorker.perform_async(html,0.2)
+
+    ImageWorker.perform_async(f.path,1)
+    ImageWorker.perform_async(f.path,0.5)
+    ImageWorker.perform_async(f.path,0.1)
+    #puts "---------------------------"
+
+    # 可能正在同时写或者同时读取
+    # 不确定了，在Rails Console中可以保存，但是到了controller中，却会卡出
+    # 并且报错，no such file mtp/test.jpg
+
     render json: {:content => content}
   end
 
@@ -58,8 +67,5 @@ class ImagesController < ApplicationController
     end
 
     def html_template(*args)
-      html = File.open("app/views/images/index.html.erb").read
-      template = ERB.new(html)
-      template.result
     end
 end
