@@ -36,7 +36,7 @@ fi
 
 git checkout $MASTER_BRANCH
 echo "Merge $CURRENT_BRANCH to $MASTER_BRANCH"
-git merge --no-ff $CURRENT_BRANCH --message "merge from develop"
+git merge --no-ff $CURRENT_BRANCH --message "Merge branch 'develop'"
 
 nothing_commit=$(git status | grep "nothing to commit" )
 echo $nothing_commit
