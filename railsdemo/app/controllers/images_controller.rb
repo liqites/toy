@@ -39,15 +39,19 @@ class ImagesController < ApplicationController
   def tohtml
     content= params[:content]
     html = render_to_string("images/index.html.erb")
+    #html = render_to_string("images/templates/a.html.erb")
     f = Image.save_html(html)
+    #Image.save_image_from_string(html)
 
-    ImageStringWorker.perform_async(html,1)
-    ImageStringWorker.perform_async(html,0.5)
-    ImageStringWorker.perform_async(html,0.2)
+    Image.save_image(File.new(f.path))
 
-    ImageWorker.perform_async(f.path,1)
-    ImageWorker.perform_async(f.path,0.5)
-    ImageWorker.perform_async(f.path,0.1)
+    # ImageStringWorker.perform_async(html,1)
+    # ImageStringWorker.perform_async(html,0.5)
+    # ImageStringWorker.perform_async(html,0.2)
+    #
+    # ImageWorker.perform_async(f.path,1)
+    # ImageWorker.perform_async(f.path,0.5)
+    # ImageWorker.perform_async(f.path,0.1)
     #puts "---------------------------"
 
     # 可能正在同时写或者同时读取

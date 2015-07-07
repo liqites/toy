@@ -16,7 +16,7 @@ class Image < ActiveRecord::Base
   def self.save_image(file,zoom = 1)
     height = ORIGINAL_HEIGHT * zoom
     width = ORIGINAL_WIDTH * zoom
-    kit = IMGKit.new(file, width: width.to_i, height: height.to_i,zoom: zoom)
+    kit = IMGKit.new(file, width: width.to_i, height: height.to_i,zoom: zoom, "window-status" => "IMAGE")
     g = Guid.new
     puts "-----------------------------"
     out_file_path = "tmp/imgs/#{Time.now.to_i}-#{g.hexdigest}-#{width}x#{height}.jpg"
@@ -33,5 +33,19 @@ class Image < ActiveRecord::Base
     out_file_path = "tmp/imgs/#{Time.now.to_i}-#{g.hexdigest}-#{width}x#{height}.jpg"
     puts kit.command(out_file_path).join(" ")
     kit.to_file(out_file_path)
+  end
+
+  def self.save_image_command(file,zoom = 1)
+    height = ORIGINAL_HEIGHT * zoom
+    width = ORIGINAL_WIDTH * zoom
+    kit = IMGKit.new(file, width: width.to_i, height: height.to_i,zoom: zoom)
+    g = Guid.new
+    puts "-----------------------------"
+    out_file_path = "tmp/imgs/#{Time.now.to_i}-#{g.hexdigest}-#{width}x#{height}.jpg"
+    cmd = kit.command(out_file_path).join(" ")
+    o,e,s = Open3.capture3(cmd)
+    puts o
+    puts e
+    puts s
   end
 end
