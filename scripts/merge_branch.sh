@@ -1,5 +1,5 @@
 # !/bin/bash
-# 
+#
 DEVELOP_BRANCH="develop"
 MASTER_BRANCH="master"
 #RAILSDEMO_ROOT=/Users/liqi/projects/personal/toy/railsdemo
@@ -36,7 +36,7 @@ fi
 
 git checkout $MASTER_BRANCH
 echo "Merge $CURRENT_BRANCH to $MASTER_BRANCH"
-git merge --no-ff $CURRENT_BRANCH
+git merge --no-ff $CURRENT_BRANCH --message "merge from develop"
 
 nothing_commit=$(git status | grep "nothing to commit" )
 echo $nothing_commit
