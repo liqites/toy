@@ -2,8 +2,8 @@
 class Image < ActiveRecord::Base
   extend ActionController::Rendering
 
-  ORIGINAL_HEIGHT= 1142
-  ORIGINAL_WIDTH = 1600
+  ORIGINAL_HEIGHT= 1136
+  ORIGINAL_WIDTH = 640
 
   def self.save_html(html)
     f = File.new("tmp/#{Time.now.to_i}.html","w")
