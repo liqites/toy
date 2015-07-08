@@ -4,6 +4,7 @@ class ImagesController < ApplicationController
   respond_to :html
 
   def index
+    @another_content = "Another Content"
     @images = Image.all
     respond_with(@images)
   end
@@ -38,11 +39,12 @@ class ImagesController < ApplicationController
 
   def tohtml
     content= params[:content]
-    html = render_to_string("images/index.html.erb")
+    html = render_to_string("images/index.html.erb",locals: {:@another_content=> "Another Content"})
+    puts html
     # html = render_to_string("images/templates/a.html.erb")
     f = Image.save_html(html)
-    puts Image.save_image_from_string(html,0.25)
-    puts Image.save_image(File.new(f.path),0.25)
+    # puts Image.save_image_from_string(html,0.25)
+    # puts Image.save_image(File.new(f.path),0.25)
     # ImageTestWorker.perform_async(html,1)
     # kit = IMGKit.new(f)
     # begin
@@ -52,7 +54,7 @@ class ImagesController < ApplicationController
     #   puts e.messages
     # end
 
-    # ImageStringWorker.perform_async(html,1)
+    ImageStringWorker.perform_async(html,1)
     # ImageStringWorker.perform_async(html,0.5)
     # ImageStringWorker.perform_async(html,0.2)
     #
