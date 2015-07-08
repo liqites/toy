@@ -2,8 +2,8 @@
 class Image < ActiveRecord::Base
   extend ActionController::Rendering
 
-  ORIGINAL_HEIGHT= 1136
-  ORIGINAL_WIDTH = 640
+  ORIGINAL_HEIGHT= 100
+  ORIGINAL_WIDTH = 100
 
   def self.save_html(html)
     f = File.new("tmp/#{Time.now.to_i}.html","w")
@@ -16,10 +16,10 @@ class Image < ActiveRecord::Base
   def self.save_image(file,zoom = 1)
     height = ORIGINAL_HEIGHT * zoom
     width = ORIGINAL_WIDTH * zoom
-    kit = IMGKit.new(file, width: width.to_i, height: height.to_i,zoom: zoom, "window-status" => "IMAGE")
+    kit = IMGKit.new(file, width: width.to_i, height: height.to_i,zoom: zoom)
     g = Guid.new
     puts "-----------------------------"
-    out_file_path = "tmp/imgs/#{Time.now.to_i}-#{g.hexdigest}-#{width}x#{height}.jpg"
+    out_file_path = "tmp/#{Time.now.to_i}-#{g.hexdigest}-#{width}x#{height}.jpg"
     puts kit.command(out_file_path).join(" ")
     kit.to_file(out_file_path)
   end

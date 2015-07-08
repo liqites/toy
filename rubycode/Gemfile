@@ -1,0 +1,5 @@
+source "http://ruby.taobao.org"
+
+gem 'imgkit'
+gem 'wkhtmltoimage-binary'
+gem 'guid'
