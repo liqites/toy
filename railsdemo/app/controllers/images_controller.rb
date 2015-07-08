@@ -39,10 +39,25 @@ class ImagesController < ApplicationController
 
   def tohtml
     content= params[:content]
-    html = render_to_string("images/index.html.erb",locals: {:@another_content=> "Another Content"})
-    puts html
+    #html = render_to_string("images/index.html.erb",locals: {:@another_content=> "Another Content"})
     # html = render_to_string("images/templates/a.html.erb")
-    f = Image.save_html(html)
+    #f = Image.save_html(html)
+    Image.save_image("http://localhost:8080/index.html")
+    # puts "-------------------- new file"
+    # kit = IMGKit.new(html)
+    # puts "-------------------- new IMGKit"
+    # puts kit.command("tmp/#{Guid.new.hexdigest}.jpg").join(" ")
+    # puts "-------------------- puts command"
+    # img = kit.to_img(:jpg)
+    # puts "-------------------- to image"
+    # file = Tempfile.new(["#{Guid.new.hexdigest}","jpg"],"tmp/imgs",:encoding => 'ascii-8bit')
+    # puts "-------------------- new temp file"
+    # file.write(img)
+    # puts "-------------------- file write img"
+    # file.flush
+    # puts "-------------------- file flush"
+
+    # Image.save_image_from_string(html)
     # puts Image.save_image_from_string(html,0.25)
     # puts Image.save_image(File.new(f.path),0.25)
     # ImageTestWorker.perform_async(html,1)
@@ -54,7 +69,7 @@ class ImagesController < ApplicationController
     #   puts e.messages
     # end
 
-    ImageStringWorker.perform_async(html,1)
+    # ImageStringWorker.perform_async(html,1)
     # ImageStringWorker.perform_async(html,0.5)
     # ImageStringWorker.perform_async(html,0.2)
     #
