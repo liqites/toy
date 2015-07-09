@@ -12,6 +12,10 @@ class MagickTest
   TMP_PATH = "#{APP_ROOT}/tmp"
   FONT = "Tsentsiu"
 
+  def self.t
+    puts 10.cm
+  end
+
   def self.d
     Magick::RVG.dpi = 90
 
