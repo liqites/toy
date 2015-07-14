@@ -60,3 +60,4 @@ gem 'sidekiq'
 gem 'sinatra', :require => nil
 gem 'unicorn'
 gem 'guid'
+gem 'nokogiri'
