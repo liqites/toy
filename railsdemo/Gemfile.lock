@@ -162,6 +162,7 @@ DEPENDENCIES
   imgkit
   jbuilder (~> 1.2)
   jquery-rails
+  nokogiri
   rails (= 4.0.13)
   ruby-readability
   sass-rails (~> 4.0.2)
