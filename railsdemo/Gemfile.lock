@@ -29,8 +29,20 @@ GEM
     bcrypt (3.1.10)
     builder (3.1.4)
     cancancan (1.10.1)
+    capybara (2.4.4)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      xpath (~> 2.0)
+    capybara-webkit (1.6.0)
+      capybara (>= 2.3.0, < 2.5.0)
+      json
     celluloid (0.16.0)
       timers (~> 4.0.0)
+    childprocess (0.5.6)
+      ffi (~> 1.0, >= 1.0.11)
+    cliver (0.3.2)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -49,6 +61,7 @@ GEM
       warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.5.2)
+    ffi (1.9.10)
     guess_html_encoding (0.0.11)
     guid (0.1.1)
     hike (1.2.3)
@@ -72,6 +85,11 @@ GEM
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     orm_adapter (0.5.0)
+    poltergeist (1.5.1)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      multi_json (~> 1.0)
+      websocket-driver (>= 0.2.0)
     rack (1.5.3)
     rack-protection (1.5.3)
       rack
@@ -102,6 +120,7 @@ GEM
     ruby-readability (0.7.0)
       guess_html_encoding (>= 0.0.4)
       nokogiri (>= 1.6.0)
+    rubyzip (1.1.7)
     sass (3.2.19)
     sass-rails (4.0.5)
       railties (>= 4.0.0, < 5.0)
@@ -111,6 +130,11 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    selenium-webdriver (2.46.2)
+      childprocess (~> 0.5)
+      multi_json (~> 1.0)
+      rubyzip (~> 1.0)
+      websocket (~> 1.0)
     sidekiq (3.4.1)
       celluloid (~> 0.16.0)
       connection_pool (>= 2.1.1)
@@ -148,13 +172,23 @@ GEM
       raindrops (~> 0.7)
     warden (1.2.3)
       rack (>= 1.0)
+    watir-webdriver (0.8.0)
+      selenium-webdriver (>= 2.46.2)
+    websocket (1.2.2)
+    websocket-driver (0.6.0)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.2)
     wkhtmltoimage-binary (0.12.1)
+    xpath (2.0.0)
+      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   cancancan (~> 1.10)
+  capybara
+  capybara-webkit
   coffee-rails (~> 4.0.0)
   colorize
   devise (~> 3.5.1)
@@ -163,6 +197,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   nokogiri
+  poltergeist
   rails (= 4.0.13)
   ruby-readability
   sass-rails (~> 4.0.2)
@@ -173,6 +208,7 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   unicorn
+  watir-webdriver
   wkhtmltoimage-binary
 
 BUNDLED WITH

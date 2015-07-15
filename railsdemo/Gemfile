@@ -61,3 +61,9 @@ gem 'sinatra', :require => nil
 gem 'unicorn'
 gem 'guid'
 gem 'nokogiri'
+# 这个也不错，但是要使用浏览器，应该是可以不使用浏览器的
+gem 'watir-webdriver'
+
+gem "capybara"
+gem "capybara-webkit"
+gem "poltergeist"
