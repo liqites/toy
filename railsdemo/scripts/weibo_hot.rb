@@ -13,6 +13,10 @@ Capybara.current_driver = :selenium
 Capybara.run_server = false
 browser = Capybara::Session.new(:selenium)
 browser.visit(url)
-sleep(3)
-puts "1111111"
-puts browser.find("div.WB_innerwrap").length#.find("div.m_wrap")
+browser.find("#Pl_Discover_Pt6Rank__5").find(".m_wrap").find("ul").all("li").each do |li|
+	info_box = li.find(".info_box")
+	title = info_box.find(".title").all("a").first.text
+	puts title
+	sub_title = info_box.find(".subtitle").text
+	puts sub_title
+end
