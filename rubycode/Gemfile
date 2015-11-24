@@ -1,8 +1,0 @@
-source "http://ruby.taobao.org"
-
-gem 'imgkit'
-gem 'wkhtmltoimage-binary'
-gem 'guid'
-gem 'rmagick'
-gem 'rspec'
-gem 'rspec-core'
